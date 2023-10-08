@@ -1,3 +1,6 @@
+
+print('print at start of carousel')
+
 local M = {}
 
 local iterate = 0
@@ -82,5 +85,9 @@ function M.EmptyRegisterControl(direction, callBack)
     end
 end
 
+
+
+
 return M
+
 
