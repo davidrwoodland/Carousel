@@ -1,9 +1,8 @@
-require('carousel')
+local around = require("carousel.carousel")
+local config = require("carousel.config")
 
-local carousel_keymap_forward = '<M-p>'
-local carousel_keymap_backward = '<M-P>'
+local carouselKeymapForward = config.customKeymapForward or config.carouselKeymapForward
+local lesuoracKeymapBackward = config.customKeymapBackward or config.lesuoracKeymapBackward
 
-
-
-vim.api.nvim_set_keymap('n', carousel_keymap_forward, "<Cmd>lua require'carousel'.Carousel()<CR>", { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', carousel_keymap_backward, "<Cmd>lua require'carousel'.Lesuorac()<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", carouselKeymapForward, function() around.carousel() end)
+vim.keymap.set("n", lesuoracKeymapBackward, function() around.lesuorac() end)

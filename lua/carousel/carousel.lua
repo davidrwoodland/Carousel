@@ -1,6 +1,4 @@
-
-print('print at start of carousel')
-
+local config = require("carousel.config")
 local M = {}
 
 local iterate = 0
@@ -9,72 +7,74 @@ local forward = 1
 local backward = -1
 local temporaryRegister = ''
 local currentRegisterContent = ''
-local DefaultCarouselTimer = 1500
+M.defaultCarouselTimer = 1500
 
--- Exported functions
-function M.Carousel()
-    M.EmptyRegisterControl(forward, M.Carousel)
+function M.carousel()
+    M.emptyRegisterControl(forward, M.carousel)
     if iterate == 0 then
         vim.cmd('normal! "' .. iterate .. 'p')
         temporaryRegister = vim.fn.getreg('0')
         iterate = iterate + 1
-        M.StartOrResetTimer()
+        M.startOrResetTimer()
     elseif iterate <= 9 then
         vim.cmd('undo')
         vim.cmd('normal! "' .. iterate .. 'p')
         vim.cmd('let @" = @' .. iterate)
         iterate = iterate + 1
-        M.StartOrResetTimer()
+        M.startOrResetTimer()
     elseif iterate == 10 then
         iterate = 0
         vim.cmd('undo')
         vim.fn.setreg('0', temporaryRegister)
-        M.Carousel()
+        M.carousel()
     else
         print('Carousel broke somehow')
     end
 end
 
-function M.Lesuorac()
-    M.EmptyRegisterControl(backward, M.Lesuorac)
+function M.lesuorac()
+    M.emptyRegisterControl(backward, M.lesuorac)
     if iterate > 1 then
         vim.cmd('undo')
         vim.cmd('normal! "' .. iterate .. 'p')
         vim.cmd('let @" = @' .. iterate)
         iterate = iterate - 1
-        M.StartOrResetTimer()
+        M.startOrResetTimer()
     elseif iterate == 1 then
         vim.cmd('undo')
         vim.cmd('normal! "' .. iterate .. 'p')
         vim.cmd('let @" = @' .. iterate)
         vim.fn.setreg('0', temporaryRegister)
         iterate = iterate - 1
-        M.StartOrResetTimer()
+        M.startOrResetTimer()
     elseif iterate == 0 then
         if timer then
             vim.cmd('undo')
         end
-        M.Carousel()
+        M.carousel()
         iterate = 9
     else
         print('Lesuorac broke somehow')
     end
 end
 
-function M.StartOrResetTimer()
+function M.startOrResetTimer()
     if timer then
         vim.fn.timer_stop(timer)
         timer = nil
     end
-    timer = vim.fn.timer_start(DefaultCarouselTimer, function ()
+
+    local timerMaxVal = config.customCarouselTimer or M.defaultCarouselTimer
+
+    timer = vim.fn.timer_start(timerMaxVal, function ()
         vim.fn.setreg('0', temporaryRegister)
         iterate = 0
-        print('timer has stopped after ' .. (DefaultCarouselTimer / 1000) .. ' seconds')
+        print('timer has stopped after ' .. (timerMaxVal/ 1000) .. ' seconds')
         timer = nil
     end)
 end
 
-function M.EmptyRegisterControl(direction, callBack)
+function M.emptyRegisterControl(direction, callBack)
     if iterate < 1 or iterate > 10 then
         return
     end
@@ -85,9 +85,4 @@ function M.EmptyRegisterControl(direction, callBack)
     end
 end
 
-
-
-
 return M
-
-
