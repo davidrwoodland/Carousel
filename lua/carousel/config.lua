@@ -1,5 +1,3 @@
-require('carousel')
-
 local M = {}
 
 M.customCarouselTimer = nil
