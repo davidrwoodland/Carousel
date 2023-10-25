@@ -1,3 +1,5 @@
+require('carousel')
+
 local M = {}
 
 M.customCarouselTimer = nil
@@ -5,7 +7,7 @@ M.customCarouselTimer = nil
 M.carouselKeymapForward = '<M-p>'
 M.lesuoracKeymapBackward = '<M-P>'
 
-M.customKeymapForward = M.carouselKeymapForward
-M.customKeymapBackward = M.lesuoracKeymapBackward
+M.customKeymapForward = nil
+M.customKeymapBackward = nil
 
 return M
