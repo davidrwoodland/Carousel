@@ -1,8 +1,11 @@
 local M = {}
 
-M.customCarouselTimer = nil
+M.defaultCarouselTimer = 1500
 
-M.customKeymapForward = nil
-M.customKeymapBackward = nil
+M.defaultKeymapForward = '<M-p>'
+M.defaultKeymapBackward = '<M-P>'
 
 return M
+
+
+

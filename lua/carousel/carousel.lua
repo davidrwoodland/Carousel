@@ -7,7 +7,7 @@ local forward = 1
 local backward = -1
 local temporaryRegister = ''
 local currentRegisterContent = ''
-M.defaultCarouselTimer = 1500
+local carouselTimer = config.defaultCarouselTimer
 
 function M.carousel()
     M.emptyRegisterControl(forward, M.carousel)
@@ -64,12 +64,10 @@ function M.startOrResetTimer()
         timer = nil
     end
 
-    local timerMaxVal = config.customCarouselTimer or M.defaultCarouselTimer
-
-    timer = vim.fn.timer_start(timerMaxVal, function ()
+    timer = vim.fn.timer_start(carouselTimer, function ()
         vim.fn.setreg('0', temporaryRegister)
         iterate = 0
-        print('timer has stopped after ' .. (timerMaxVal/ 1000) .. ' seconds')
+        print('timer has stopped after ' .. (carouselTimer/ 1000) .. ' seconds')
         timer = nil
     end)
 end
@@ -83,6 +81,10 @@ function M.emptyRegisterControl(direction, callBack)
         iterate = iterate + direction
         callBack()
     end
+end
+
+function M.setTimer(time)
+    carouselTimer = time
 end
 
 return M
