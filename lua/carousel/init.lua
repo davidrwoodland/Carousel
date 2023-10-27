@@ -1,5 +1,6 @@
 local M = {}
 
+--setup for userConfig or used to set default values 
 function M.setup(userConfig)
 
     local around = require("carousel.carousel")
@@ -17,6 +18,7 @@ function M.setup(userConfig)
 
 end
 
+--calling to set keymaps and timer on nvim load
 M.setup({})
 
 return M
